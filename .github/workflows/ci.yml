@@ -1,0 +1,30 @@
+name: Site CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required files
+        run: |
+          set -euo pipefail
+          for f in index.html diagnosis.html about.html privacy.html contact.html styles.css app.js robots.txt sitemap.xml favicon.svg; do
+            test -s "$f" || { echo "Missing: $f"; exit 1; }
+          done
+      - name: Check JavaScript syntax
+        run: node --check app.js
+      - name: Check core links and policy
+        run: |
+          set -euo pipefail
+          grep -q '30秒 現場資格診断' diagnosis.html
+          grep -q 'genba@rss7.net' contact.html
+          grep -q 'https://genba.rss7.net/sitemap.xml' robots.txt
+          test "$(find qualifications -maxdepth 1 -name '*.html' | wc -l)" -eq 8

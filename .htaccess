@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Canonical production URL: HTTPS + genba.rss7.net
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^genba\.rss7\.net$ [NC]
+RewriteRule ^ https://genba.rss7.net%{REQUEST_URI} [R=301,L]
+
+# Return a real 404 page instead of the hosting-level 500 response.
+ErrorDocument 404 /404.html

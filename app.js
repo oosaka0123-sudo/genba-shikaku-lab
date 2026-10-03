@@ -1,6 +1,26 @@
 (()=>{
 const b=document.querySelector('.menu-btn'),n=document.querySelector('.nav');
 if(b&&n){b.addEventListener('click',()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',String(o));b.setAttribute('aria-label',o?'メニューを閉じる':'メニューを開く');b.textContent=o?'×':'☰'})}
+const offers={
+'second-electrician':{name:'オンスク.JP 第二種電気工事士講座',url:'https://onsuku.jp/training/denki2',provider:'A8.net',programId:'s00000018694001',affiliate:false},
+'hazardous-otsu4-course':{name:'オンスク.JP 危険物乙4講座',url:'https://onsuku.jp/training/otu4',provider:'A8.net',programId:'s00000018694001',affiliate:false},
+'health-supervisor':{name:'オンスク.JP 衛生管理者講座',url:'https://onsuku.jp/training/eisei2',provider:'A8.net',programId:'s00000018694001',affiliate:false}
+};
+document.querySelectorAll('[data-affiliate-key]').forEach(el=>{
+  const x=offers[el.dataset.affiliateKey];
+  if(!x)return;
+  const a=document.createElement('a');
+  a.className='btn';
+  a.href=x.url;
+  a.target='_blank';
+  a.rel=x.affiliate?'sponsored noopener noreferrer':'noopener noreferrer';
+  a.textContent=x.name+'を見る';
+  el.replaceWith(a);
+  const note=document.createElement('small');
+  note.className='affiliate-note';
+  note.textContent=x.affiliate?'広告・プロモーションを含みます。':'A8.net提携準備中。現在は公式サイトへの通常リンクです。';
+  a.insertAdjacentElement('afterend',note);
+});
 const f=document.querySelector('#diagnosisForm');if(!f)return;
 const data={
 electrician:{name:'第二種電気工事士',url:'qualifications/second-electrician.html',base:7,why:'設備・電気分野へ仕事の幅を広げやすく、独立志向とも相性があります。',next:'公式の受験案内を確認し、筆記・技能の学習方法を比較する'},

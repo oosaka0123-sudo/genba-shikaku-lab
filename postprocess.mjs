@@ -7,17 +7,13 @@ for(const file of fs.readdirSync(root,{recursive:true}).filter(x=>x.endsWith('.h
   const prefix=deep?'../':'./';
   let s=fs.readFileSync(full,'utf8');
   s=s.replaceAll('href="/"',`href="${prefix}"`);
-  s=s.replace(/href="\/(?!\/)([^"#]+)"/g,`href="${prefix}$1"`);
-  s=s.replace(/src="\/(?!\/)([^"#]+)"/g,`src="${prefix}$1"`);
+  s=s.replace(/href="\/(?!\/)([^"]+)"/g,`href="${prefix}$1"`);
+  s=s.replace(/src="\/(?!\/)([^"]+)"/g,`src="${prefix}$1"`);
   fs.writeFileSync(full,s);
 }
 let js=fs.readFileSync(path.join(root,'app.js'),'utf8');
-js=js.replace("url:'/qualifications/second-electrician.html'","url:'qualifications/second-electrician.html'")
-     .replace("url:'/qualifications/hazardous-otsu4.html'","url:'qualifications/hazardous-otsu4.html'")
-     .replace("url:'/qualifications/forklift.html'","url:'qualifications/forklift.html'")
-     .replace("url:'/qualifications/tamakake.html'","url:'qualifications/tamakake.html'")
-     .replace("url:'/qualifications/health-supervisor.html'","url:'qualifications/health-supervisor.html'")
-     .replace("url:'/qualifications/boiler.html'","url:'qualifications/boiler.html'")
-     .replace("url:'/qualifications/fire-equipment.html'","url:'qualifications/fire-equipment.html'");
+for(const slug of ['second-electrician','hazardous-otsu4','forklift','tamakake','health-supervisor','boiler','fire-equipment']){
+  js=js.replace(`url:'/qualifications/${slug}.html'`,`url:'qualifications/${slug}.html'`);
+}
 fs.writeFileSync(path.join(root,'app.js'),js);
 console.log('Relative-link postprocess complete');

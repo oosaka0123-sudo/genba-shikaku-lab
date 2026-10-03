@@ -20,7 +20,10 @@ jobs:
             test -s "$f" || { echo "Missing: $f"; exit 1; }
           done
       - name: Check JavaScript syntax
-        run: node --check app.js
+        run: |
+          node --check app.js
+          node --check postprocess.mjs
+          node --check enrich.mjs
       - name: Check core links and policy
         run: |
           set -euo pipefail
@@ -28,3 +31,13 @@ jobs:
           grep -q 'genba@rss7.net' contact.html
           grep -q 'https://genba.rss7.net/sitemap.xml' robots.txt
           test "$(find qualifications -maxdepth 1 -name '*.html' | wc -l)" -eq 8
+      - name: Check encoding and qualification template
+        run: |
+          set -euo pipefail
+          ! grep -R -E '縺|繝|莠|蜿|鬨|蝣' --include='*.html' --include='*.js' .
+          ! grep -R -E 'nav-toggle|site-nav|header-inner' qualifications
+          for f in qualifications/*.html; do
+            grep -q 'class="menu-btn"' "$f"
+            grep -q 'class="nav"' "$f"
+          done
+          ! grep -R 'href="/#qualifications"' --include='*.html' .

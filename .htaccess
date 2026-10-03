@@ -8,3 +8,9 @@ RewriteRule ^ https://genba.rss7.net%{REQUEST_URI} [R=301,L]
 
 # Return a real 404 page instead of the hosting-level 500 response.
 ErrorDocument 404 /404.html
+
+[executed on device: ks-pc02 (0816891f-2eb8-4c29-851c-1e77f9e9ac5d)]
+# Keep internal project documents and build scripts non-public.
+<FilesMatch "\\.(?:md|mjs)$">
+  Require all denied
+</FilesMatch>

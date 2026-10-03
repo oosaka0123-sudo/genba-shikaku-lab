@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
-const base=path.join(process.cwd(),'qualifications');
+import { fileURLToPath } from 'node:url';
+const here=path.dirname(fileURLToPath(import.meta.url));
+const base=path.join(here,'qualifications');
 function add(file, marker, html){
   const p=path.join(base,file);
   let s=fs.readFileSync(p,'utf8');

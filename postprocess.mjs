@@ -12,7 +12,7 @@ for(const file of fs.readdirSync(root,{recursive:true}).filter(x=>x.endsWith('.h
   fs.writeFileSync(full,s);
 }
 let js=fs.readFileSync(path.join(root,'app.js'),'utf8');
-for(const slug of ['second-electrician','hazardous-otsu4','forklift','tamakake','health-supervisor','boiler','fire-equipment']){
+for(const slug of ['second-electrician','hazardous-otsu4','forklift','tamakake','health-supervisor','boiler','fire-equipment','crane']){
   js=js.replace(`url:'/qualifications/${slug}.html'`,`url:'qualifications/${slug}.html'`);
 }
 fs.writeFileSync(path.join(root,'app.js'),js);

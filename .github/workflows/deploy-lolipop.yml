@@ -41,7 +41,7 @@ jobs:
           open -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER"
           mkdir -p "$TARGET_DIR"
           cd "$TARGET_DIR"
-          mirror --reverse --verbose=1 --exclude-glob .git/ --exclude-glob .github/ --exclude build.mjs --exclude postprocess.mjs ./ .
+          mirror --reverse --verbose=1 --exclude-glob .git/ --exclude-glob .github/ --exclude-glob '*.mjs' --exclude-glob '*.md' ./ .
           bye
           LFTP_EOF
       - name: Verify production

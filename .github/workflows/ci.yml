@@ -24,6 +24,7 @@ jobs:
           node --check app.js
           node --check postprocess.mjs
           node --check enrich.mjs
+          node --check build.mjs
       - name: Check core links and policy
         run: |
           set -euo pipefail
@@ -34,10 +35,13 @@ jobs:
       - name: Check encoding and qualification template
         run: |
           set -euo pipefail
-          ! grep -R -E '縺|繝|莠|蜿|鬨|蝣' --include='*.html' --include='*.js' .
+          ! grep -R -E '縺|繝|莠|蜿|鬨|蝣|�|Ã|Â' --include='*.html' --include='*.js' .
           ! grep -R -E 'nav-toggle|site-nav|header-inner' qualifications
           for f in qualifications/*.html; do
             grep -q 'class="menu-btn"' "$f"
             grep -q 'class="nav"' "$f"
           done
+          ! grep -R -E '(href|src)="/[^/]' --include='*.html' .
           ! grep -R 'href="/#qualifications"' --include='*.html' .
+      - name: Check deprecated builder guard
+        run: grep -q 'intentionally disabled' build.mjs

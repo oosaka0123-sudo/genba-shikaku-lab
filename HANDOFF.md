@@ -9,7 +9,7 @@
 - GitHub Pages: https://oosaka0123-sudo.github.io/genba-shikaku-lab/
 - GitHub: oosaka0123-sudo/genba-shikaku-lab
 - お問い合わせ: genba@rss7.net
-- 現在の本番ソースSHA: a90d8455a8ac84d4c7e98be1e51e793c563f9ead
+- 現在の本番ソースSHA: https://genba.rss7.net/deploy.json で確認
 
 ## 重要ルール
 - 「3人クロスチェック」は ChatGPT・Gemini・Claude が実際に独立確認した場合のみそう呼ぶ。

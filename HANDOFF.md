@@ -1,30 +1,52 @@
 # 現場資格ラボ 引き継ぎ
 
-更新日: 2026-09-16
+更新日: 2026-10-03
 
 ## プロジェクト概要
 - サイト名: 現場資格ラボ
 - 目的: 現場系資格の比較・診断型アフィリエイトメディア
-- 本番予定URL: https://genba.rss7.net/
-- お問い合わせ: genba@rss7.net
+- 本番URL: https://genba.rss7.net/
+- GitHub Pages: https://oosaka0123-sudo.github.io/genba-shikaku-lab/
 - GitHub: oosaka0123-sudo/genba-shikaku-lab
-- 現在の公開プレビュー: https://oosaka0123-sudo.github.io/genba-shikaku-lab/
+- お問い合わせ: genba@rss7.net
+- 現在の本番ソースSHA: a90d8455a8ac84d4c7e98be1e51e793c563f9ead
 
 ## 重要ルール
-- 「3人クロスチェック」は ChatGPT・Gemini・Claude の3者で実際に確認した場合のみそう呼ぶ。
-- ChatGPT内で3視点に分けただけの評価を「3人クロスチェック」と呼ばない。
-- 現在は ChatGPT と Claude は確認済みだが、Gemini CLI は旧個人向けクライアント終了により Antigravity 移行エラー。よって3人クロスチェック完了とは扱わない。
-- サイト制作は確認待ちで止めず、実装→確認→修正を進める。
-- 本番デプロイは他サイトを巻き込まないよう、専用ディレクトリのみ・削除なしを原則とする。
+- 「3人クロスチェック」は ChatGPT・Gemini・Claude が実際に独立確認した場合のみそう呼ぶ。
+- 2026-10-03に ChatGPT・Gemini(Antigravity)・Claude で正式クロスチェックを実施済み。
+- Geminiが postprocess.mjs の正規表現を実ファイルと異なる形で読んだP0指摘は、ChatGPT/Claude/実コード照合で誤検知と判定し採用しなかった。
+- 本番デプロイは /genba 専用、mirror --delete は使わない。
+- 試験日程・受験資格・費用は必ず一次情報を基準にする。
+- build.mjs は旧生成ロジックが破壊的だったため意図的に実行不能化済み。
 
-## 現在の実装状況
-- 初期版13ページを生成済み。
-- TOP / 30秒資格診断 / サイト概要 / プライバシーポリシー / お問い合わせ / 主要資格8ページあり。
-- sitemap.xml / robots.txt / favicon / 構造化データ / スマホ対応 / ハンバーガーメニュー実装済み。
-- 診断ロジックは年齢帯・現在の仕事・目的・勉強時間・予算から候補3資格をスコアリングして表示。
-- GitHub Pages 公開済み。
-- GitHub Actions の Site CI を導入済み。
-- ロリポップ用の手動デプロイ workflow を追加済み。リモート削除をしない安全側の設計。
+## 現在の公開状態
+- genba.rss7.net は HTTP/HTTPS 200。旧403は解消済み。
+- 2026-10-03 本番一括検査: 主要13ページすべてHTTP 200。
+- 主要8資格ページすべて文字化け0、共通 menu-btn/nav テンプレート正常。
+- 第二種電気工事士ページの旧文字化けは修復済み。
+- 危険物乙4の旧テンプレート不統一は修復済み。
+- GitHub Site CI / GitHub Pages build は成功。
+- deploy.json で本番SHAを確認可能。
+- HANDOFF.md / README.md / *.mjs は今後本番公開対象外。
+
+## 自動デプロイ
+- 正式経路はリポジトリ oosaka0123-sudo/web-de-nandemo-dekiru の workflow Auto deploy Genba Shikaku Lab。
+- workflow ID: 359444917。
+- 5分ごとの自動同期＋workflow_dispatch。
+- 既存Lolipop Secretsを値を露出せず利用。
+- /genba にFTPS上書き、リモート一括削除なし。
+- deploy.json のSHA一致と本番HTTPを自動検証。
+- genba-shikaku-lab側の旧 Deploy to Lolipop workflow はSecrets未設定のため正式経路として使わない。
+- 一時的に追加した重複 deploy-genba.yml は削除済み。
+
+## 再発防止
+- CIで文字化け候補 縺|繝|莠|蜿|鬨|蝣|�|Ã|Â を検出。
+- 資格ページで旧クラス nav-toggle/site-nav/header-inner を禁止。
+- 全資格ページに menu-btn/nav を要求。
+- HTMLのルート絶対 href/src を検出。
+- postprocess.mjs は8資格すべて（crane含む）を対象。
+- enrich.mjs は import.meta.url 基準でパス解決。
+- build.mjs は stale generator 再実行による巻き戻りを防ぐため fail-fast。
 
 ## 主要資格8本
 1. 第二種電気工事士
@@ -36,43 +58,21 @@
 7. 二級ボイラー技士
 8. 消防設備士
 
-## 一次情報ベースで強化済み
-- 第二種電気工事士
-- 危険物乙4
-- フォークリフト
-- 玉掛け
-- 衛生管理者
-- 二級ボイラー技士
-- 消防設備士
-- クレーン関連資格
-
 ## 収益戦略
-- 単なる資格一覧サイトではなく「自分の仕事に必要な資格を診断するサイト」にする。
+- 「自分の仕事に必要な資格を診断するサイト」を中核にする。
 - 主力候補は第二種電気工事士と衛生管理者。
-- 収益導線は通信講座・スクール比較を主軸にし、将来的に転職・求人案件も接続する。
-- 記事群は「50代」「未経験」「短期」「転職」「費用」「独学」「講座比較」など検索意図別に展開する。
-- アフィリエイトリンクは data-affiliate-key を使い、後から案件差し替え可能な構造にする。
+- 通信講座・スクール比較を主軸にし、将来的に転職・求人案件も接続。
+- data-affiliate-key により案件差し替え可能な構造を維持。
+- 薄い大量記事ではなく、診断・比較・公式情報整理で独自性を出す。
 
-## 本番公開の現状
-- genba.rss7.net は DNS 解決済みでロリポップ側IPに向いている。
-- 現在 HTTP/HTTPS とも 403。
-- サブドメイン自体は存在するが、公開ディレクトリへのサイト配置が未完了と見られる。
-- ロリポップ管理画面は再ログインが必要で、Opera Connector からは閲覧のみでクリック操作不可。
-- PC02上では WinSCP CLI や再利用可能なFTP資格情報は確認できなかった。
-- GitHub Actions 側のロリポップSecretsは現時点では未設定。
-
-## 次回の最優先タスク
-1. genba.rss7.net のロリポップ公開フォルダ設定を確認し、公開ディレクトリへ配置して403を解消。
-2. GitHub Actions の必要Secretsを設定して安全な自動デプロイを有効化。
-3. 本番公開後、実URLでスマホ・メニュー・内部リンク・横スクロール・404・SSLを確認。
-4. 30秒資格診断の結果表示を強化し、「なぜこの資格か」「次に何をするか」を明確化。
-5. 第二種電気工事士と衛生管理者を主力ピラーにして、関連ロングテール記事を追加。
-6. ValueCommerce / A8等の実案件を確認して講座・スクール比較を実装。
-7. Search Console登録と sitemap.xml 送信。
-8. Gemini の Antigravity 経路を復旧後、ChatGPT・Gemini・Claudeで正式クロスチェック。
+## 次回の優先順位
+1. A8 / ValueCommerce等の実案件を調査し、第二種電気工事士・衛生管理者から収益導線を接続。
+2. Search Consoleで genba.rss7.net のプロパティ状態を確認し、未登録なら登録、sitemap.xml送信。
+3. 30秒資格診断の結果に「なぜこの資格か」「次に何をするか」をさらに明確化。
+4. 第二種電気工事士・衛生管理者のロングテール記事を追加。
+5. 本番スマホ表示・実ブラウザのハンバーガーメニュー操作を定期確認。
 
 ## 注意
-- 現時点で「3人クロスチェック完了」とは言わない。
-- 試験日程・受験資格・受講条件・費用は必ず各省庁・試験機関の一次情報を基準にする。
-- SEO目的の薄い大量記事は避け、診断・比較・公式情報整理で独自性を出す。
-- 本番デプロイで mirror --delete は使わない。
+- 本番403対応は完了済み。次回403解消作業から再開しない。
+- GitHub Secretsの値は表示・複製せず、既存ブリッジ経由で利用する。
+- 本番に内部Markdownやビルド用.mjsを公開しない。

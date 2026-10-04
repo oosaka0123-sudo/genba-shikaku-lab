@@ -50,7 +50,7 @@ const top=Object.entries(s).sort((a,b)=>b[1]-a[1]).slice(0,3);
 const labels=[...f.querySelectorAll('select')].map(el=>el.options[el.selectedIndex].text);
 const result=document.querySelector('#diagnosisResult');result.innerHTML='<h2>あなたの候補3資格</h2>'+
 '<p class="notice"><strong>今回の条件</strong><br>'+labels.join(' / ')+'</p>'+
-top.map(([k],i)=>{const x=data[k];return '<article class="result-card"><span class="eyebrow">候補 '+(i+1)+'</span><b>'+x.name+'</b><p><strong>なぜ候補？</strong><br>'+x.why+'</p><p><strong>次にやること</strong><br>'+x.next+'</p><a class="btn ghost" href="'+x.url+'">資格の詳細を見る</a></article>'}).join('')+
+top.map(([k],i)=>{const x=data[k];const key=k==='electrician'?'second-electrician':k==='hazard'?'hazardous-otsu4-course':k==='health'?'health-supervisor':'';const course=key&&offers[key]?'<span class="course-badge">オンライン講座あり</span>':'';return '<article class="result-card"><span class="eyebrow">候補 '+(i+1)+'</span>'+course+'<b>'+x.name+'</b><p><strong>なぜ候補？</strong><br>'+x.why+'</p><p><strong>次にやること</strong><br>'+x.next+'</p><a class="btn ghost" href="'+x.url+'">資格の詳細・講座を見る</a></article>'}).join('')+
 '<p class="notice"><strong>診断は目安です。</strong> 受験資格・講習条件・業務範囲・最新日程は、リンク先に掲載している公式情報を必ず確認してください。</p>';
 result.scrollIntoView({behavior:'smooth',block:'start'});
 });

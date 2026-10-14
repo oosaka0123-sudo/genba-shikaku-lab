@@ -2,9 +2,9 @@
 const b=document.querySelector('.menu-btn'),n=document.querySelector('.nav');
 if(b&&n){b.addEventListener('click',()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',String(o));b.setAttribute('aria-label',o?'メニューを閉じる':'メニューを開く');b.textContent=o?'×':'☰'})}
 const offers={
-'second-electrician':{name:'オンスク.JP 第二種電気工事士講座',url:'https://onsuku.jp/training/denki2',provider:'A8.net',programId:'s00000018694001',affiliate:false},
-'hazardous-otsu4-course':{name:'オンスク.JP 危険物乙4講座',url:'https://onsuku.jp/training/otu4',provider:'A8.net',programId:'s00000018694001',affiliate:false},
-'health-supervisor':{name:'オンスク.JP 衛生管理者講座',url:'https://onsuku.jp/training/eisei2',provider:'A8.net',programId:'s00000018694001',affiliate:false}
+'second-electrician':{name:'オンスク.JP 第二種電気工事士講座',url:'https://px.a8.net/svt/ejp?a8mat=4BCCJG+EXMOIY+408S+BW8O2&a8ejpredirect=https%3A%2F%2Fonsuku.jp%2Ftraining%2Fdenki2',trackingPixel:'https://www16.a8.net/0.gif?a8mat=4BCCJG+EXMOIY+408S+BW8O2',provider:'A8.net',programId:'s00000018694001',affiliate:true},
+'hazardous-otsu4-course':{name:'オンスク.JP 危険物乙4講座',url:'https://px.a8.net/svt/ejp?a8mat=4BCCJG+EXMOIY+408S+BW8O2&a8ejpredirect=https%3A%2F%2Fonsuku.jp%2Ftraining%2Fotu4',trackingPixel:'https://www10.a8.net/0.gif?a8mat=4BCCJG+EXMOIY+408S+BW8O2',provider:'A8.net',programId:'s00000018694001',affiliate:true},
+'health-supervisor':{name:'オンスク.JP 衛生管理者講座',url:'https://px.a8.net/svt/ejp?a8mat=4BCCJG+EXMOIY+408S+BW8O2&a8ejpredirect=https%3A%2F%2Fonsuku.jp%2Ftraining%2Feisei2',trackingPixel:'https://www11.a8.net/0.gif?a8mat=4BCCJG+EXMOIY+408S+BW8O2',provider:'A8.net',programId:'s00000018694001',affiliate:true}
 };
 document.querySelectorAll('[data-affiliate-key]').forEach(el=>{
   const x=offers[el.dataset.affiliateKey];
@@ -20,6 +20,7 @@ document.querySelectorAll('[data-affiliate-key]').forEach(el=>{
   note.className='affiliate-note';
   note.textContent=x.affiliate?'広告・プロモーションを含みます。':'A8.net提携準備中。現在は公式サイトへの通常リンクです。';
   a.insertAdjacentElement('afterend',note);
+  if(x.affiliate&&x.trackingPixel){const p=document.createElement('img');p.src=x.trackingPixel;p.width=1;p.height=1;p.alt='';p.setAttribute('aria-hidden','true');note.insertAdjacentElement('afterend',p)}
 });
 const f=document.querySelector('#diagnosisForm');if(!f)return;
 const data={
